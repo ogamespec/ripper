@@ -27,6 +27,7 @@ function GetDeltaFleet ($player_id, $lastfleet, $days, &$pfleets, $lastdate)
 
     $nearest_date = PHP_INT_MAX;
     $nearest_score = 0;
+    if (!isset($pfleets[$player_id])) return 0;
     if ($pfleets[$player_id] == NULL) return 0;
     foreach ( $pfleets[$player_id] as $date => $score ) {
         if ( $date >= $date_from && $date < $nearest_date ) {
@@ -336,6 +337,11 @@ function FleetTopGrowFall ( $acc, $topgrowf, $topfallf, $sortby, $topdays )
     // Обработать данные.
 
     foreach ( $pnames as $name => $id ) {
+
+        if (!isset($plastfleet[$id])) {
+            continue;
+        }
+
         $lastfleet = $pfleets[$id][$plastfleet[$id]];
 
         $delta = GetDeltaFleet ($id, $lastfleet, $topdays, $pfleets, $plastfleet[$id]);
