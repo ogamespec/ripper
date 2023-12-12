@@ -182,10 +182,10 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         $row = dbarray ($result);
         if ($row == false) break;
         if ($row['type'] == 1) {
-            if ( ($row['date'] > $plastdate[$row['player_id']]) || !isset ($plastdate[$row['player_id']]) ) {
+            if (!isset ($plastdate[$row['player_id']]) || ($row['date'] > $plastdate[$row['player_id']]) ) {
                 $plastdate[$row['player_id']] = $row['date'];
                 $pnames[$row['name']] = $row['player_id'];
-                if ( $ids[$row['player_id']] !== $row['name'] && isset ($ids[$row['player_id']]) ) $pnames[$ids[$row['player_id']]] = 0;    // Вырезать старое имя.
+                if ( isset ($ids[$row['player_id']]) && $ids[$row['player_id']] !== $row['name'] ) $pnames[$ids[$row['player_id']]] = 0;    // Вырезать старое имя.
                 $ids[$row['player_id']] = $row['name'];
             }
             $pscores[$row['player_id']][$row['date']] = $row['score'];
@@ -317,13 +317,13 @@ function FleetTopGrowFall ( $acc, $topgrowf, $topfallf, $sortby, $topdays )
         $row = dbarray ($result);
         if ($row == false) break;
         if ($row['type'] == 1) {
-            if ( ($row['date'] > $plastdate[$row['player_id']]) || !isset ($plastdate[$row['player_id']]) ) {
+            if ( !isset ($plastdate[$row['player_id']]) || ($row['date'] > $plastdate[$row['player_id']]) ) {
                 $plastdate[$row['player_id']] = $row['date'];
                 $pnames[$row['name']] = $row['player_id'];
             }
         }
         if ($row['type'] == 2) {
-            if ( ($row['date'] > $plastfleet[$row['player_id']]) || !isset ($plastfleet[$row['player_id']]) ) {
+            if ( !isset ($plastfleet[$row['player_id']]) || ($row['date'] > $plastfleet[$row['player_id']]) ) {
                 $plastfleet[$row['player_id']] = $row['date'];
             }
             $pfleets[$row['player_id']][$row['date']] = $row['score'];
@@ -352,7 +352,15 @@ function FleetTopGrowFall ( $acc, $topgrowf, $topfallf, $sortby, $topdays )
 }
 
 function CompareByName ($a, $b) { return strcmp($a['name'], $b['name']); }
-function CompareByScore ($a, $b) { return $a['score'] < $b['score']; }
+function CompareByScore ($a, $b)
+{
+    // Если очки не устанвлены (информация отсутствует), то считать что значения равны.
+    if (!isset($a['score']) || !isset($b['score'])) {
+        return 0;
+    }
+
+    return $a['score'] < $b['score'];
+}
 function CompareByDelta ($a, $b) { return abs($a['delta']) < abs($b['delta']); }
 
 function PageStatsBox ($acc)
@@ -631,8 +639,8 @@ function PageShoutBox ($acc)
         echo MessageHTML ($msg);
     }
 
-    // Вывод количества страниц.
-    echo "<tr><td>1</td></tr>\n";
+    // TODO: Вывод количества страниц.
+    //echo "<tr><td>1</td></tr>\n";
 
     // Вывод поля для отправки сообщений.
     echo "<tr><td><form id=\"shoutbox\" action=\"".scriptname()."?page=shout&sig=".$acc['sig']."\" method=\"POST\">";
