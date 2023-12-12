@@ -282,7 +282,7 @@ function CreateAccount ()
     $sig = md5 ( $now . $db_secret );
     $sig_up = md5 ( $now . $db_secret . "UPDATE" );
     $sig_view = md5 ( $now . $db_secret . "VIEW" );
-    $acc = array ( IncrementDBGlobal("nextacc"), $sig, $sig_up, $sig_view, 25, $_SERVER['REMOTE_ADDR'], "?", 0, 0, 0, "" );
+    $acc = array ( IncrementDBGlobal("nextacc"), $sig, $sig_up, $sig_view, 25, $_SERVER['REMOTE_ADDR'], "?", 0, 0, 0, "", 1, 1 );
     AddDBRow ( $acc, "account" );
     return LoadAccountBySig ( $sig );
 }
