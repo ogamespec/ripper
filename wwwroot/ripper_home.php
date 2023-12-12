@@ -27,7 +27,7 @@ function PageHome ($errorCode = 0)
     echo "        <tr><td>Если у вас уже есть аккаунт, вы можете войти в него, используя вашу секретную Сигнатуру.</td>\n";
     echo "        <td><a href=\"#\" id=\"loadSig\" class=\"fg-button ui-state-default ui-corner-all\">Войти</a> </td></tr>\n";
     echo "        <tr><td>&nbsp;</td></tr>\n";
-    echo "        <tr><td colspan=2><div align=right><i><small>&copy; 2010, 2012, 2015 <a href=\"http://ogamespec.com\" target=_blank>Andorianin</a>. Оригинальная графика и текст из игры &copy; 2008, Gameforge Productions GmbH.</small></i></div></td></tr>\n";
+    echo "        <tr><td colspan=2><div align=right><i><small>&copy; 2010-2023 <a href=\"http://ogamespec.com\" target=_blank>ogamespec</a>. Оригинальная графика и текст из игры &copy; 2008, Gameforge Productions GmbH.</small></i></div></td></tr>\n";
     echo "        </table>\n";
     echo "</div>\n";
     echo "<div id=\"version_info\">Версия $version</div>\n";

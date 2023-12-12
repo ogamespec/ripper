@@ -16,6 +16,14 @@ function dbconnect ($db_host, $db_user, $db_pass, $db_name)
     }
 }
 
+function db_try_connect ($db_host, $db_user, $db_pass, $db_name)
+{
+    global  $query_counter, $query_log, $db_connect;
+    $db_connect = @mysqli_connect($db_host, $db_user, $db_pass);
+    $db_select = @mysqli_select_db($db_connect, $db_name);
+    return $db_connect && $db_select;
+}
+
 function dbquery ($query)
 {
     global  $query_counter, $query_log, $db_connect;

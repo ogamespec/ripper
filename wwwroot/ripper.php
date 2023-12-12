@@ -772,11 +772,10 @@ function PageInstall ()
 
     if ( method() == "POST") {
         // Попробовать соединиться с базой данных.
-        $db_connect = @mysql_connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass']);
-        $db_select = @mysql_select_db($_POST['db_name']);
+        $connected = db_try_connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'], $_POST['db_name']);
         echo "<script type=\"text/javascript\">\n";
         echo "    $(function() {\n";
-        if ( $db_connect && $db_select )
+        if ( $connected )
         {
             echo "        $(\"#install_content\").hide (); \n";
             echo "        $(\"#dialogSuccess\").dialog({   \n";
