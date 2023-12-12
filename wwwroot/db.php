@@ -1,75 +1,55 @@
 <?php
 
-// MySQL database functions
-function dbquery($query) {
-    $result = @mysql_query($query);
-    if (!$result) {
-        echo mysql_error();
-        return false;
-    } else {
-        return $result;
+$query_counter = 0;
+$query_log = "";
+$db_connect = 0;
+
+function dbconnect ($db_host, $db_user, $db_pass, $db_name)
+{
+    global  $query_counter, $query_log, $db_connect;
+    $db_connect = @mysqli_connect($db_host, $db_user, $db_pass);
+    $db_select = @mysqli_select_db($db_connect, $db_name);
+    if (!$db_connect) {
+        die("<div style='font-family:Verdana;font-size:11px;text-align:center;'><b>Unable to establish connection to MySQL</b><br>".mysqli_errno($db_connect)." : ".mysqli_error($db_connect)."</div>");
+    } elseif (!$db_select) {
+        die("<div style='font-family:Verdana;font-size:11px;text-align:center;'><b>Unable to select MySQL database</b><br>".mysqli_errno($db_connect)." : ".mysqli_error($db_connect)."</div>");
     }
 }
 
-function dbcount($field,$table,$conditions="") {
-    $cond = ($conditions ? " WHERE ".$conditions : "");
-    $result = @mysql_query("SELECT Count".$field." FROM ".DB_PREFIX.$table.$cond);
-    if (!$result) {
-        echo mysql_error();
+function dbquery ($query)
+{
+    global  $query_counter, $query_log, $db_connect;
+    $query_counter ++;
+    $query_log .= $query . "<br>\n";
+    $result = @mysqli_query($db_connect, $query);
+    if (!$result && $mute==FALSE) {
+        echo "$query <br>";
+        echo mysqli_error($db_connect);
         return false;
-    } else {
-        $rows = mysql_result($result, 0);
-        return $rows;
     }
+    else  return $result;
 }
 
-function dbresult($query, $row) {
-    $result = @mysql_result($query, $row);
-    if (!$result) {
-        echo mysql_error();
-        return false;
-    } else {
-        return $result;
-    }
-}
-
-function dbrows($query) {
-    $result = @mysql_num_rows($query);
+function dbrows ($query)
+{
+    $result = @mysqli_num_rows($query);
     return $result;
 }
 
-function dbarray($query) {
-    $result = @mysql_fetch_assoc($query);
+function dbarray ($query)
+{
+    global $db_connect;
+    $result = @mysqli_fetch_assoc($query);
     if (!$result) {
-        echo mysql_error();
+        echo mysqli_error($db_connect);
         return false;
-    } else {
-        return $result;
     }
+    else return $result;
 }
 
-function dbfree ($result) {
-    @mysql_free_result ($result);
-}
-
-function dbarraynum($query) {
-    $result = @mysql_fetch_row($query);
-    if (!$result) {
-        echo mysql_error();
-        return false;
-    } else {
-        return $result;
-    }
-}
-
-function dbconnect($db_host, $db_user, $db_pass, $db_name) {
-    $db_connect = @mysql_connect($db_host, $db_user, $db_pass);
-    $db_select = @mysql_select_db($db_name);
-    if (!$db_connect) {
-        die("<div style='font-family:Verdana;font-size:11px;text-align:center;'><b>Unable to establish connection to MySQL</b><br>".mysql_errno()." : ".mysql_error()."</div>");
-    } elseif (!$db_select) {
-        die("<div style='font-family:Verdana;font-size:11px;text-align:center;'><b>Unable to select MySQL database</b><br>".mysql_errno()." : ".mysql_error()."</div>");
-    }
+function dbfree ($result)
+{
+    @mysqli_free_result ($result);
 }
 
 ?>
