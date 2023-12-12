@@ -202,12 +202,12 @@ function PageUpdate ()
 <div id="update_content" class="ui-widget-content">
 
             <p>   
-        Для обновления загрузите XML-файлы OGame API вашей вселенной : <br/>
-Список игроков : <a href="http://<?=$acc['uni'];?>/api/players.xml">http://<?=$acc['uni'];?>/api/players.xml</a> (периодичность обновления 1 день)<br/>
-Галактика : <a href="http://<?=$acc['uni'];?>/api/universe.xml">http://<?=$acc['uni'];?>/api/universe.xml</a> (периодичность обновления 1 неделя)<br/>
-Статистика общая : <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1</a> (периодичность обновления 1 час)<br/>
-Статистика Флот : <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3</a> (периодичность обновления 1 час)<br/>
-Статистика Исследования : <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2</a> (периодичность обновления 1 час)<br/>
+        Для обновления загрузите XML-файлы OGame API вашей вселенной:<br/>
+- Список игроков: <a href="http://<?=$acc['uni'];?>/api/players.xml">http://<?=$acc['uni'];?>/api/players.xml</a> (периодичность обновления 1 день)<br/>
+- Галактика: <a href="http://<?=$acc['uni'];?>/api/universe.xml">http://<?=$acc['uni'];?>/api/universe.xml</a> (периодичность обновления 1 неделя)<br/>
+- Статистика общая: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1</a> (периодичность обновления 1 час)<br/>
+- Статистика Флот: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3</a> (периодичность обновления 1 час)<br/>
+- Статистика Исследования: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2</a> (периодичность обновления 1 час)<br/>
 <br/>
 </p>
 
