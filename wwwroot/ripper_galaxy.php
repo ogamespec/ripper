@@ -148,12 +148,12 @@ function PageGalaxy ()
             else $moonstr = "-";
 
             $last = LastStat ($acc, $planet['player_id']);
+            $allyname = "";
             if ( $last ) {
                 if ( $last['ally_id'] ) {
                     $ally_stat = LastAllyStat ($acc, $last['ally_id']);
                     $allyname = $ally_stat['name'];
                 }
-                else $allyname = "";
                 $username = $last['name'];
             }
             else $username = "<i><font color=gray>нет данных</font></i>";
