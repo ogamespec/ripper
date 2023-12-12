@@ -181,9 +181,24 @@ function PagePlayerHistoryBox ($acc)
         $res  = "<tr>";
         $res .= "<td class=\"centered\">" . $day . "</td>";
 
-        $points = $historyrows[$day]['points'];
-        $fpoints = $historyrows[$day]['fpoints'];
-        $rpoints = $historyrows[$day]['rpoints'];
+        if (isset($historyrows[$day]['points'])) {
+            $points = $historyrows[$day]['points'];
+        }
+        else {
+            $points = NULL;
+        }
+        if (isset($historyrows[$day]['fpoints'])) {
+            $fpoints = $historyrows[$day]['fpoints'];
+        }
+        else {
+            $fpoints = NULL;
+        }
+        if (isset($historyrows[$day]['rpoints'])) {
+            $rpoints = $historyrows[$day]['rpoints'];
+        }
+        else {
+            $rpoints = NULL;
+        }
 
         if ($points == NULL) $res .= "<td class=\"centered\"><font color=\"grey\" class=\"approx\">".nn($oldpoints)."</font></td>";
         else $res .= "<td class=\"centered\">".nn($points)."</td>";

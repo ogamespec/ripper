@@ -19,11 +19,7 @@ function PagePlayersLegend ($acc)
     while ($rows--) {
         $row = dbarray ($result);
         if ($row['type'] == 1) {
-            if (!isset ($plastdate[$row['player_id']])) { 
-                $plastdate[$row['player_id']] = $row['date'];
-                $pids[$row['player_id']] = $row['name'];                
-            }
-            else if ( ($row['date'] > $plastdate[$row['player_id']]) ) {
+            if ( !isset ($plastdate[$row['player_id']]) || ($row['date'] > $plastdate[$row['player_id']]) ) {
                 $plastdate[$row['player_id']] = $row['date'];
                 $pids[$row['player_id']] = $row['name'];
             }
@@ -32,19 +28,14 @@ function PagePlayersLegend ($acc)
             $pscores[$row['player_id']][$row['date']]['ally_id'] = $row['ally_id'];
         }
         if ($row['type'] == 2) {
-            if ( !isset ($plastfleet[$row['player_id']]) ) {
+            if ( !isset ($plastfleet[$row['player_id']]) || ($row['date'] > $plastfleet[$row['player_id']]) ) {
                 $plastfleet[$row['player_id']] = $row['date'];
-            }
-            else if ( ($row['date'] > $plastfleet[$row['player_id']]) ) {
             }
             $pfleets[$row['player_id']][$row['date']]['score'] = $row['score'];
             $pfleets[$row['player_id']][$row['date']]['place'] = $row['place'];
         }
         if ($row['type'] == 3) {
-            if ( !isset ($plastresearch[$row['player_id']]) ) {
-                $plastresearch[$row['player_id']] = $row['date'];
-            }
-            else if ( ($row['date'] > $plastresearch[$row['player_id']]) ) {
+            if ( !isset ($plastresearch[$row['player_id']]) || ($row['date'] > $plastresearch[$row['player_id']]) ) {
                 $plastresearch[$row['player_id']] = $row['date'];
             }
             $presearch[$row['player_id']][$row['date']]['score'] = $row['score'];

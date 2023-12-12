@@ -13,23 +13,23 @@ function PageAllyMembers ($acc)
         $row = dbarray ($result);
         $id = $row['player_id'];
         if ( $row['type'] == 1 ) { 
-            if ( $row['date'] < $members[$id]['min_date'] || !isset($members[$id]['min_date']) ) {
+            if ( !isset($members[$id]['min_date']) || $row['date'] < $members[$id]['min_date'] ) {
                 $members[$id]['min_date'] = $row['date'];
                 $members[$id]['min_score'] = $row['score'];
                 $members[$id]['min_place'] = $row['place'];
             }
-            if ( $row['date'] > $members[$id]['max_date'] || !isset($members[$id]['max_date']) ) {
+            if ( !isset($members[$id]['max_date']) || $row['date'] > $members[$id]['max_date'] ) {
                 $members[$id]['max_date'] = $row['date'];
                 $members[$id]['max_score'] = $row['score'];
                 $members[$id]['max_place'] = $row['place'];
             }
         }
         else if ( $row['type'] == 2 ) {
-            if ( $row['date'] < $members[$id]['min_fdate'] || !isset($members[$id]['min_fdate']) ) {
+            if ( !isset($members[$id]['min_fdate']) || $row['date'] < $members[$id]['min_fdate'] ) {
                 $members[$id]['min_fdate'] = $row['date'];
                 $members[$id]['min_fscore'] = $row['score'];
             }
-            if ( $row['date'] > $members[$id]['max_fdate'] || !isset($members[$id]['max_fdate']) ) {
+            if ( !isset($members[$id]['max_fdate']) || $row['date'] > $members[$id]['max_fdate'] ) {
                 $members[$id]['max_fdate'] = $row['date'];
                 $members[$id]['max_fscore'] = $row['score'];
             }
