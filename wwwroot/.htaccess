@@ -1,0 +1,8 @@
+AddDefaultCharset UTF-8
+
+php_value error_reporting 0
+
+<Files ripper_config.php>
+order allow,deny
+deny from all
+</Files>
