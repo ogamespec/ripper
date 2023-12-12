@@ -130,7 +130,7 @@ function PageUpdate ()
         ClearGalaxy ($acc['acc_id']);
         $xml = simplexml_load_file ( $universe );
         foreach ( $xml->planet as $i=>$planet ) {
-            list ($g,$s,$p) = split (':', $planet['coords'] );
+            list ($g,$s,$p) = explode (':', $planet['coords'] );
             AddPlanet ( $acc['acc_id'], $planet['id'], $planet['player'], $g, $s, $p, $planet['name'], 0, 0 );
             $planets++;
             if ( key_exists ( 'moon', $planet ) ) {
@@ -211,7 +211,7 @@ function PageUpdate ()
 <br/>
 </p>
 
-<?php=$result;?>
+<?=$result;?>
 <br/>
 
             <form name="updateform" action="<?=scriptname();?>?page=update&sig=<?=$_GET['sig'];?>" method="POST">
