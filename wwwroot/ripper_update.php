@@ -211,7 +211,7 @@ function PageUpdate ()
 <br/>
 </p>
 
-<?=$result;?>
+<?php=$result;?>
 <br/>
 
             <form name="updateform" action="<?=scriptname();?>?page=update&sig=<?=$_GET['sig'];?>" method="POST">

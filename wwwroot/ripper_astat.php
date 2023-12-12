@@ -66,8 +66,8 @@ function PageAllyMembers ($acc)
         $bbrows[$place] .= "[/tr]";
     }
 
-    ksort (&$mrows);
-    ksort (&$bbrows);
+    ksort ($mrows);
+    ksort ($bbrows);
 
     $ally_stat = LastAllyStat ($acc, $_GET['ally_id']);
     echo "<h2>Альянс ".$ally_stat['name']."</h2>";

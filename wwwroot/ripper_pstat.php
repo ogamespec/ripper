@@ -67,7 +67,7 @@ function GetResearchNameByPoints ($points)
     foreach ($resmap as $i=>$gid) {
         for ($lvl=1; $lvl<20; $lvl++) {
             $m = $k = $d = $e = 0;
-            ResearchPrice ( $gid, $lvl, &$m, &$k, &$d, &$e );
+            ResearchPrice ( $gid, $lvl, $m, $k, $d, $e );
             $pts = ($m + $k + $d) / 1000;
             if ( $pts >= ($points-3) && $pts <= ($points+3) ) return $LOCA["NAME_".$gid] . " " . $lvl;
         }

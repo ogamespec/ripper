@@ -43,7 +43,7 @@ function PagePlayersLegend ($acc)
         }        
     }
 
-    ksort (&$pids);
+    ksort ($pids);
     
     $n = 1;
     echo "<table style=\"width: 100%;\">\n";

@@ -341,6 +341,7 @@ function GetUniverseHTML ($acc)
         return;
     }
 
+/*
     foreach ( $gameservers as $server => $obj ) {
         $matches = array ();
         $match = preg_match ( '/uni[0-9]{1,}.'. $gameservers[$server]['host'] .'/', $acc['uni'], &$matches );
@@ -358,7 +359,8 @@ function GetUniverseHTML ($acc)
             return;
         }
     }
-    
+*/
+
     echo "<h2>Неизвестная Вселенная</h2>";
 }
 
@@ -670,7 +672,7 @@ function PageHeader ($title="Звездовод")
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="keywords" content="Звездовод Ripper OGame" />
     <meta name="description" content="Звездовод - утилита для слежения за онлайном неактивных игроков для браузерной игры OGame" />
-    <meta name="author" content="Andorianin OGame.ru Team" />
+    <meta name="author" content="ogamespec" />
     <title><?=$title;?></title>
     <script type="text/javascript">
         var sig = "<?=$_GET['sig'];?>";
@@ -695,7 +697,7 @@ function PageHeader ($title="Звездовод")
     </script>
 </head>
 <body onload="RipperBodyLoad();">
-<?
+<?php
 }
 
 function PageFooter ($acc=null)

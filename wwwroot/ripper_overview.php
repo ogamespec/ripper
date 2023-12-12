@@ -126,7 +126,7 @@ function AllyTop ($acc, $topdays)
     }
     dbfree ($result);
 
-    ksort (&$anames);
+    ksort ($anames);
 
     // Обработать данные
     $atopgrow = array ();
@@ -134,11 +134,11 @@ function AllyTop ($acc, $topdays)
     foreach ( $anames as $name => $id ) {
         $lastdate = $alastdate[$id];
         $lastscore = $ascores[$id][$lastdate];
-        $delta = GetAllyDeltaScore ($id, $lastscore, $topdays, &$ascores, $lastdate);
+        $delta = GetAllyDeltaScore ($id, $lastscore, $topdays, $ascores, $lastdate);
         $atopgrow[$delta] = "<a href=\"".scriptname()."?page=astat&ally_id=$id&sig=".$_GET['sig']."\">" . $name . "</a>";
     }
 
-    krsort ( &$atopgrow );
+    krsort ( $atopgrow );
 
     $i = 0;
     foreach ( $atopgrow as $grow => $name) {
@@ -194,7 +194,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
     }
     dbfree ($result);
 
-    ksort (&$pnames);
+    ksort ( $pnames );
     unset ( $ids );
 
     // Обработать данные.
@@ -212,7 +212,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
             continue;
         }
 
-        $delta = GetDeltaScore ($id, $lastscore, $topdays, &$pscores, $lastdate);
+        $delta = GetDeltaScore ($id, $lastscore, $topdays, $pscores, $lastdate);
         $topgrow[$delta] = $topfall[$delta] = "<a href=\"".scriptname()."?page=pstat&player_id=$id&sig=".$_GET['sig']."\">" . $name . "</a>";
         if ( $delta > 0) {        // Прирост за 24 часа.
             $growPlayers[$growPlayersCount]['id'] = $id;
@@ -231,7 +231,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
             continue;
         }
 
-        $devi = GetDeviationScore ($id, $lastscore, 1, &$pscores, $lastdate);    // Перепады за 24 часа.
+        $devi = GetDeviationScore ($id, $lastscore, 1, $pscores, $lastdate);    // Перепады за 24 часа.
         if ($devi) { 
             $deviPlayers[$deviPlayersCount]['id'] = $id;
             $deviPlayers[$deviPlayersCount]['status'] = $laststatus;
@@ -241,7 +241,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         }
 
         if ($baseage >= 28) {
-        	$delta = GetDeltaScore ($id, $lastscore, 28, &$pscores, $lastdate);
+        	$delta = GetDeltaScore ($id, $lastscore, 28, $pscores, $lastdate);
         	if ( $delta == 0) {        // Неактивные 28 дней.
             	$inactivePlayers28[$inactivePlayers28Count]['id'] = $id;
                 $inactivePlayers28[$inactivePlayers28Count]['status'] = $laststatus;
@@ -251,7 +251,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         	}
         }
         if ($baseage >= 7) {
-			$delta = GetDeltaScore ($id, $lastscore, 7, &$pscores, $lastdate);
+			$delta = GetDeltaScore ($id, $lastscore, 7, $pscores, $lastdate);
         	if ( $delta == 0) {        // Неактивные 7 дней.
             	$inactivePlayers7[$inactivePlayers7Count]['id'] = $id;
                 $inactivePlayers7[$inactivePlayers7Count]['status'] = $laststatus;
@@ -261,7 +261,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         	}
         }
         if ($baseage >= 5) {
-        	$delta = GetDeltaScore ($id, $lastscore, 5, &$pscores, $lastdate);
+        	$delta = GetDeltaScore ($id, $lastscore, 5, $pscores, $lastdate);
         	if ( $delta == 0) {        // Неактивные 5 дней.
             	$inactivePlayers5[$inactivePlayers5Count]['id'] = $id;
                 $inactivePlayers5[$inactivePlayers5Count]['status'] = $laststatus;
@@ -271,7 +271,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         	}        
         }
         if ($baseage >= 3) {
-        	$delta = GetDeltaScore ($id, $lastscore, 3, &$pscores, $lastdate);
+        	$delta = GetDeltaScore ($id, $lastscore, 3, $pscores, $lastdate);
         	if ( $delta == 0) {        // Неактивные 3 дня.
             	$inactivePlayers3[$inactivePlayers3Count]['id'] = $id;
                 $inactivePlayers3[$inactivePlayers3Count]['status'] = $laststatus;
@@ -281,7 +281,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         	}
         }
         if ($baseage >= 1) {
-        	$delta = GetDeltaScore ($id, $lastscore, 1, &$pscores, $lastdate);
+        	$delta = GetDeltaScore ($id, $lastscore, 1, $pscores, $lastdate);
         	if ( $delta == 0) {        // Неактивные 1 день.
             	$inactivePlayers1[$inactivePlayers1Count]['id'] = $id;
                 $inactivePlayers1[$inactivePlayers1Count]['status'] = $laststatus;
@@ -298,12 +298,12 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
     unset ($pscores);
     unset ($pstatus);
 
-    krsort ( &$topgrow );
-    ksort ( &$topfall );
+    krsort ( $topgrow );
+    ksort ( $topfall );
 }
 
 // Анализ статистики игроков по флотам.
-function FleetTopGrowFall ( $acc, &$topgrowf, &$topfallf, $sortby, $topdays )
+function FleetTopGrowFall ( $acc, $topgrowf, $topfallf, $sortby, $topdays )
 {
     $plastdate = array ();
     $pnames = array ();
@@ -331,14 +331,14 @@ function FleetTopGrowFall ( $acc, &$topgrowf, &$topfallf, $sortby, $topdays )
     }
     dbfree ($result);
 
-    ksort (&$pnames);
+    ksort ($pnames);
 
     // Обработать данные.
 
     foreach ( $pnames as $name => $id ) {
         $lastfleet = $pfleets[$id][$plastfleet[$id]];
 
-        $delta = GetDeltaFleet ($id, $lastfleet, $topdays, &$pfleets, $plastfleet[$id]);
+        $delta = GetDeltaFleet ($id, $lastfleet, $topdays, $pfleets, $plastfleet[$id]);
         $topgrowf[$delta] = $topfallf[$delta] = "<a href=\"".scriptname()."?page=pstat&player_id=$id&sig=".$_GET['sig']."\">" . $name . "</a>";
     }
 
@@ -347,8 +347,8 @@ function FleetTopGrowFall ( $acc, &$topgrowf, &$topfallf, $sortby, $topdays )
     unset ($plastfleet);
     unset ($pfleets);
 
-    krsort ( &$topgrowf );
-    ksort ( &$topfallf );
+    krsort ( $topgrowf );
+    ksort ( $topfallf );
 }
 
 function CompareByName ($a, $b) { return strcmp($a['name'], $b['name']); }
@@ -402,19 +402,19 @@ function PageStatsBox ($acc)
     $inactivePlayers7 = array ();    $inactivePlayers7Count = 0;
     $inactivePlayers28 = array ();   $inactivePlayers28Count = 0;
 
-    ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
-        &$growPlayers, &$growPlayersCount,
-        &$fallPlayers, &$fallPlayersCount,
-        &$deviPlayers, &$deviPlayersCount,
-        &$noobPlayers, &$noobPlayersCount,
-        &$inactivePlayers1, &$inactivePlayers1Count,
-        &$inactivePlayers3, &$inactivePlayers3Count,
-        &$inactivePlayers5, &$inactivePlayers5Count,
-        &$inactivePlayers7, &$inactivePlayers7Count,
-        &$inactivePlayers28, &$inactivePlayers28Count,
+    ScoreTopGrowFall ( $acc, $topgrow, $topfall,
+        $growPlayers, $growPlayersCount,
+        $fallPlayers, $fallPlayersCount,
+        $deviPlayers, $deviPlayersCount,
+        $noobPlayers, $noobPlayersCount,
+        $inactivePlayers1, $inactivePlayers1Count,
+        $inactivePlayers3, $inactivePlayers3Count,
+        $inactivePlayers5, $inactivePlayers5Count,
+        $inactivePlayers7, $inactivePlayers7Count,
+        $inactivePlayers28, $inactivePlayers28Count,
         $sort, $topdays
     );
-    FleetTopGrowFall ( $acc, &$topgrowf, &$topfallf, $sort, $topdays );
+    FleetTopGrowFall ( $acc, $topgrowf, $topfallf, $sort, $topdays );
 
     echo "<table style=\"width: 100%\">\n";
     echo "<tr><td>Статистика ведется с: ".date("d.m.Y", $acc['firsthit'])." ($baseage дн.)" . SelectTopDays($topdays) . SelectSortMethod($sort) . "</td></tr>\n";
