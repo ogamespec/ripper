@@ -105,6 +105,57 @@ function ParseStat ($acc, $text)
 // Ручное обновление.
 // Исходные данные - XML-файлы OGame API.
 
+// Дать возможность задать URL вселенной для ручного обновления (обновление через скрипт браузера переходит в статус Deprecated)
+function PageBindUniverse($result)
+{
+?>
+<div id="update_content" class="ui-widget-content">
+
+            <p>   
+        Укажите URL вашей Вселенной:<br/>
+</p>
+
+<?=$result;?>
+<br/>
+
+            <form name="updateform" action="<?=scriptname();?>?page=update&mode=1&sig=<?=$_GET['sig'];?>" method="POST">
+            <table>
+            <tr><td>Вселенная</td>            <td><input name="uni" type="text" size="22" ></td></tr>
+            <tr><td>&nbsp; <button class="fg-button ui-state-default ui-corner-all" type="submit" >Обработать</button></td></tr>
+            </table>
+            </form>
+            <br><br><br>
+</div>
+<?php
+}
+
+// Вывести ссылки для обновления (чисто для информации) и показать кнопку, при нажатии на которую затянутся все API
+function PageManualUpdate($acc, $result)
+{
+?>
+<div id="update_content" class="ui-widget-content">
+
+            <p>   
+        Для обновления загрузите XML-файлы OGame API вашей вселенной:<br/>
+- Список игроков: <a href="http://<?=$acc['uni'];?>/api/players.xml">http://<?=$acc['uni'];?>/api/players.xml</a> (периодичность обновления 1 день)<br/>
+- Галактика: <a href="http://<?=$acc['uni'];?>/api/universe.xml">http://<?=$acc['uni'];?>/api/universe.xml</a> (периодичность обновления 1 неделя)<br/>
+- Статистика общая: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1</a> (периодичность обновления 1 час)<br/>
+- Статистика Флот: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3</a> (периодичность обновления 1 час)<br/>
+- Статистика Исследования: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2</a> (периодичность обновления 1 час)<br/>
+<br/>
+</p>
+
+<?=$result;?>
+<br/>
+
+            <form name="updateform" action="<?=scriptname();?>?page=update&mode=2&sig=<?=$_GET['sig'];?>" method="POST">
+            &nbsp; <button class="fg-button ui-state-default ui-corner-all" type="submit" >Обработать</button>
+            </form>
+            <br><br><br>
+</div>
+<?php
+}
+
 function PageUpdate ()
 {
     global $errors;
@@ -115,10 +166,28 @@ function PageUpdate ()
     if ($acc == null) PageHome (10002);
 
     $result = "";
+    $mode = 0;
+
+    if (method() === "POST") {
+        $mode = intval ($_GET['mode']);
+    }
 
     if ($acc['u_update'] == false) $result = "<font color=\"red\">".$errors[10007]."</font>";
 
-    else if ( method() === "POST" ) {
+    else if ( method() === "POST" && $mode == 1) {
+
+        if (!empty($_POST["uni"])) {
+
+            CheckUniverse ($acc, $_POST["uni"]);
+            $result = "Адрес Вселенной связан с базой данных успешно: " . $_POST["uni"];
+        }
+        else {
+
+            $result = "<b><font color=red>Укажите корректный адрес Вселенной из строки браузера, например s1-ru.ogame.gameforge.com (разрабы постоянно меняют схему именования серверов, поэтому через несколько лет \"например\" может стать другим)</font></b>";
+        }
+    }
+
+    else if ( method() === "POST" && $mode == 2) {
         $universe = "http://".$acc['uni']."/api/universe.xml";
         $players = "http://".$acc['uni']."/api/players.xml";
         $stat_total = "http://".$acc['uni']."/api/highscore.xml?category=1&type=0";
@@ -198,28 +267,12 @@ function PageUpdate ()
     PageSignature ($acc);
     PageUniverse ($acc);
 
-?>
-<div id="update_content" class="ui-widget-content">
-
-            <p>   
-        Для обновления загрузите XML-файлы OGame API вашей вселенной:<br/>
-- Список игроков: <a href="http://<?=$acc['uni'];?>/api/players.xml">http://<?=$acc['uni'];?>/api/players.xml</a> (периодичность обновления 1 день)<br/>
-- Галактика: <a href="http://<?=$acc['uni'];?>/api/universe.xml">http://<?=$acc['uni'];?>/api/universe.xml</a> (периодичность обновления 1 неделя)<br/>
-- Статистика общая: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=1</a> (периодичность обновления 1 час)<br/>
-- Статистика Флот: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=3</a> (периодичность обновления 1 час)<br/>
-- Статистика Исследования: <a href="http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2">http://<?=$acc['uni'];?>/api/highscore.xml?category=1&type=2</a> (периодичность обновления 1 час)<br/>
-<br/>
-</p>
-
-<?=$result;?>
-<br/>
-
-            <form name="updateform" action="<?=scriptname();?>?page=update&sig=<?=$_GET['sig'];?>" method="POST">
-            &nbsp; <button class="fg-button ui-state-default ui-corner-all" type="submit" >Обработать</button>
-            </form>
-            <br><br><br>
-</div>
-<?php
+    if ( $acc['firsthit'] == 0 ) {
+        PageBindUniverse($result);
+    }
+    else {
+        PageManualUpdate($acc, $result);
+    }
 
     PageFooter ($acc);
 }
