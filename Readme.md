@@ -2,8 +2,9 @@
 
 Ripper - программа для слежения за неактивными игроками в помощь Звездоводам.
 
-|![ripper0](/imgstore/ripper0.jpg)|![ripper1](/imgstore/ripper1.jpg)|
-|---|---|
+![ripper0](/imgstore/ripper0.jpg)
+
+![ripper1](/imgstore/ripper1.jpg)
 
 ## Алгоритм работы программы
 
