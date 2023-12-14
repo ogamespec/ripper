@@ -65,7 +65,6 @@ $gameservers = array (
     'nl' => array ( 'country' => 'Нидерланды', 'host' => 'ogame.nl', 'flag' => -546 ),
     'no' => array ( 'country' => 'Норвегия', 'host' => 'ogame.no', 'flag' => -560 ),
     'pl' => array ( 'country' => 'Польша', 'host' => 'ogame.onet.pl', 'flag' => -616 ),
-    'pl2' => array ( 'country' => 'Польша', 'host' => 'ogame.pl', 'flag' => -616 ),
     'pt' => array ( 'country' => 'Португалия', 'host' => 'ogame.com.pt', 'flag' => -630 ),
     'ro' => array ( 'country' => 'Румыния', 'host' => 'ogame.ro', 'flag' => -644 ),
     'rs' => array ( 'country' => 'Сербия', 'host' => 'ogame.rs', 'flag' => -658 ),
@@ -74,15 +73,27 @@ $gameservers = array (
     'se' => array ( 'country' => 'Швеция', 'host' => 'ogame.se', 'flag' => -686 ),
     'si' => array ( 'country' => 'Словения', 'host' => 'si.ogame.org', 'flag' => -700 ),
     'tr' => array ( 'country' => 'Турция', 'host' => 'tr.ogame.org', 'flag' => -742 ),
-    'tr2' => array ( 'country' => 'Турция', 'host' => 'ogame.tr', 'flag' => -742 ),
     'tw' => array ( 'country' => 'Тайвань', 'host' => 'ogame.tw', 'flag' => -756 ),
     'us' => array ( 'country' => 'США', 'host' => 'ogame.us', 'flag' => -798 )
 );
 
-// Названия вселенных из редизайна.
+// Названия вселенных из редизайна (номера вселенных начинаются с 101).
 $reduninames = array (
- "Andromeda", "Barym", "Capella", "Draco", "Electra", "Fornax", "Gemini", "Hydra", "Io", "Jupiter",
- "Kassiopeia", "Leo", "Mizar", "Nekkar", "Orion"
+ 101=>"Andromeda", 102=>"Barym", 103=>"Capella", 104=>"Draco", 105=>"Electra", 106=>"Fornax", 107=>"Gemini", 108=>"Hydra", 109=>"Io", 110=>"Jupiter", 111=>"Kassiopeia", 112=>"Leo", 113=>"Mizar", 
+ 114=>"Nekkar", 115=>"Orion", 116=>"Pegasus", 117=>"Quantum", 118=>"Rigel", 119=>"Sirius", 120=>"Taurus", 121=>"Ursa", 122=>"Vega", 123=>"Wasat", 124=>"Xalynth", 125=>"Yakini", 126=>"Zagadra",
+
+ 127=>"Antares", 128=>"Betelgeuse", 129=>"Cygnus", 130=>"Deimos", 131=>"Eridanus", 132=>"Fidis", 133=>"Ganimed", 134=>"Hyperion", 135=>"Izar", 136=>"Japetus", 137=>"Kallisto", 138=>"Libra", 139=>"Merkur",
+ 140=>"Nusakan", 141=>"Oberon", 142=>"Polaris", 143=>"Quaoar", 144=>"Rhea", 145=>"Spica", 146=>"Tarazed", 147=>"Uriel", 148=>"Virgo", 149=>"Wezn", 150=>"Xanthus", 151=>"Yildun", 152=>"Zibal",
+
+ 153=>"Aquarius", 154=>"Bellatrix", 155=>"Cosmos", 156=>"Dorado", 157=>"Europa", 158=>"Fenrir", 159=>"Galatea", 160=>"Himalia", 161=>"Indus", 162=>"Janice", 163=>"Kalyke", 164=>"Leda", 165=>"Mensa",
+ 166=>"Norma", 167=>"Octans", 168=>"Pasiphae", 169=>"Quasar", 170=>"Rosalind", 171=>"Sombrero", 172=>"Tucana", 173=>"Umbra", 174=>"Volans", 175=>"Xanthippe", 176=>"Weywot", 177=>"Ymir", 178=>"Zenith",
+
+ 179=>"Atlas", 180=>"Belinda", 181=>"Cetus", 182=>"Dione", 183=>"Earth", 184=>"Ferdinand", 185=>"Gaspara", 186=>"Halley", 187=>"Isonoe", 188=>"Juno", 189=>"Kerberos", 190=>"Lacerta", 191=>"Mathilde",
+ 192=>"Narvi", 193=>"Ozone", 194=>"Perseus", 195=>"Quadrantids", 196=>"Rasalas", 197=>"Saros", 198=>"Thuban", 199=>"Undae", 
+ // далее начинаются с 251, т.к. номера с 200 очевидно для чего-то были зарезервированы..
+ 251=>"Vela", 252=>"Wurren", 253=>"Xuange", 254=>"Yin", 255=>"Zodiac",
+
+ 256=>"Aries", 257=>"Bharani", 258=>"Ceres", 259=>"Delphinus",
 );
 
 // -----------------------------------------------------------------------------------------------------------------
@@ -344,15 +355,14 @@ function GetUniverseHTML ($acc)
         return;
     }
 
-/*
     foreach ( $gameservers as $server => $obj ) {
         $matches = array ();
-        $match = preg_match ( '/uni[0-9]{1,}.'. $gameservers[$server]['host'] .'/', $acc['uni'], &$matches );
+        $match = preg_match ( '/s[0-9]{1,}-' . $server . '.ogame.gameforge.com/', $acc['uni'], $matches );
         if ($match) {
-            $point = strpos ( $matches[0], '.' );
-            $uninum = substr ( $matches[0], 3, $point-3 );
+            $point = strpos ( $matches[0], '-' );
+            $uninum = substr ( $matches[0], 1, $point-3 );
             $name = UniverseName ($uninum);
-            
+
             echo "<h2 title=\"". $gameservers[$server]['country'] ."\" style='background:url(\"images/mmoflags.png\") no-repeat scroll 0 0 transparent; padding-left:23px; height:14px !important;";
             echo " background-position: left ". $gameservers[$server]['flag'] ."px !important;'>$name";
             if ( $acc['u_admin'] ) echo "<span class=\"ui-icon ui-icon-gear\" style=\"float:right;\"></span>";
@@ -362,9 +372,8 @@ function GetUniverseHTML ($acc)
             return;
         }
     }
-*/
 
-    echo "<h2>Неизвестная Вселенная</h2>";
+    echo "<h2>Неизвестная Вселенная ". $acc['uni'] ."</h2>";
 }
 
 // Статистика по трафику. Обновляется при загрузке каждой страницы.
