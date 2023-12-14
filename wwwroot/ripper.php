@@ -145,7 +145,7 @@ function UniverseName ($num)
     global $reduninames;
     if ($num < 100) return "Вселенная $num";
     else {
-        if ( isset ( $reduninames[$num-101] ) ) return $reduninames[$num-101];
+        if ( isset ( $reduninames[$num] ) ) return $reduninames[$num];
         else return "Неизвестная Вселенная $num";
     }
 }
@@ -360,7 +360,7 @@ function GetUniverseHTML ($acc)
         $match = preg_match ( '/s[0-9]{1,}-' . $server . '.ogame.gameforge.com/', $acc['uni'], $matches );
         if ($match) {
             $point = strpos ( $matches[0], '-' );
-            $uninum = substr ( $matches[0], 1, $point-3 );
+            $uninum = substr ( $matches[0], 1, $point-1 );
             $name = UniverseName ($uninum);
 
             echo "<h2 title=\"". $gameservers[$server]['country'] ."\" style='background:url(\"images/mmoflags.png\") no-repeat scroll 0 0 transparent; padding-left:23px; height:14px !important;";
