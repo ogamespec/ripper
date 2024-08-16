@@ -304,7 +304,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
 }
 
 // Анализ статистики игроков по флотам.
-function FleetTopGrowFall ( $acc, $topgrowf, $topfallf, $sortby, $topdays )
+function FleetTopGrowFall ( $acc, &$topgrowf, &$topfallf, $sortby, $topdays )
 {
     $plastdate = array ();
     $pnames = array ();
