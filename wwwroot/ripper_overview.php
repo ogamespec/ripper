@@ -263,7 +263,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         }
         if ($baseage >= 5) {
         	$delta = GetDeltaScore ($id, $lastscore, 5, $pscores, $lastdate);
-        	if ( $delta == 0 && !IsVacationMode($laststatus) ) {        // Неактивные 5 дней.
+        	if ( $delta == 0 && !IsVacationMode($laststatus) && !IsInactive($laststatus) ) {        // Неактивные 5 дней.
             	$inactivePlayers5[$inactivePlayers5Count]['id'] = $id;
                 $inactivePlayers5[$inactivePlayers5Count]['status'] = $laststatus;
                 $inactivePlayers5[$inactivePlayers5Count]['score'] = $lastscore;
@@ -273,7 +273,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         }
         if ($baseage >= 3) {
         	$delta = GetDeltaScore ($id, $lastscore, 3, $pscores, $lastdate);
-        	if ( $delta == 0 && !IsVacationMode($laststatus) ) {        // Неактивные 3 дня.
+        	if ( $delta == 0 && !IsVacationMode($laststatus) && !IsInactive($laststatus) ) {        // Неактивные 3 дня.
             	$inactivePlayers3[$inactivePlayers3Count]['id'] = $id;
                 $inactivePlayers3[$inactivePlayers3Count]['status'] = $laststatus;
                 $inactivePlayers3[$inactivePlayers3Count]['score'] = $lastscore;
@@ -283,7 +283,7 @@ function ScoreTopGrowFall ( $acc, &$topgrow, &$topfall,
         }
         if ($baseage >= 1) {
         	$delta = GetDeltaScore ($id, $lastscore, 1, $pscores, $lastdate);
-        	if ( $delta == 0 && !IsVacationMode($laststatus) ) {        // Неактивные 1 день.
+        	if ( $delta == 0 && !IsVacationMode($laststatus) && !IsInactive($laststatus) ) {        // Неактивные 1 день.
             	$inactivePlayers1[$inactivePlayers1Count]['id'] = $id;
                 $inactivePlayers1[$inactivePlayers1Count]['status'] = $laststatus;
                 $inactivePlayers1[$inactivePlayers1Count]['score'] = $lastscore;

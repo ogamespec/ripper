@@ -677,6 +677,11 @@ function IsVacationMode ($status)
     return $status === 'vI' || $status === 'vi' || $status === 'v';
 }
 
+function IsInactive ($status)
+{
+    return $status === 'vI' || $status === 'vi' || $status === 'i' || $status === 'I';
+}
+
 // -----------------------------------------------------------------------------------------------------------------
 // Декорирование страницы.
 
