@@ -672,6 +672,11 @@ function ColorStatusString ($status)
     else return "";
 }
 
+function IsVacationMode ($status)
+{
+    return $status === 'vI' || $status === 'vi' || $status === 'v';
+}
+
 // -----------------------------------------------------------------------------------------------------------------
 // Декорирование страницы.
 
