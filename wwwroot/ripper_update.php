@@ -211,6 +211,7 @@ function PageUpdate ()
         unset ($xml);
 
         // Загрузить игроков
+        // ID забаненных отсутствует в списке players - далее такие ID нужно пропускать
         $xml = simplexml_load_file ( $players );
         $users = array ();
         foreach ( $xml->player as $i=>$player ) {
@@ -225,7 +226,7 @@ function PageUpdate ()
         $timestamp = intval($xml['timestamp']);
         foreach ( $xml->player as $i=>$row ) {
             $id = intval($row['id']);
-            if ( $row['position'] < $MaxPlace ) {
+            if ( $row['position'] < $MaxPlace && key_exists($id, $users) ) {
                 $pstat = array ( $acc['acc_id'], $id, $users[$id]['name'], $users[$id]['ally'], 0, 0, 0, 1, intval($row['position']), intval($row['score']), $timestamp, $users[$id]['status'] );
                 AddDBRow ( $pstat, "pstat");
             }
@@ -238,7 +239,7 @@ function PageUpdate ()
         $timestamp = intval($xml['timestamp']);
         foreach ( $xml->player as $i=>$row ) {
             $id = intval($row['id']);
-            if ( $row['position'] < $MaxPlace ) {
+            if ( $row['position'] < $MaxPlace && key_exists($id, $users) ) {
                 $pstat = array ( $acc['acc_id'], $id, $users[$id]['name'], $users[$id]['ally'], 0, 0, 0, 2, intval($row['position']), intval($row['ships']), $timestamp, $users[$id]['status'] );
                 AddDBRow ( $pstat, "pstat");
             }
@@ -251,7 +252,7 @@ function PageUpdate ()
         $timestamp = intval($xml['timestamp']);
         foreach ( $xml->player as $i=>$row ) {
             $id = intval($row['id']);
-            if ( $row['position'] < $MaxPlace ) {
+            if ( $row['position'] < $MaxPlace && key_exists($id, $users) ) {
                 $pstat = array ( $acc['acc_id'], $id, $users[$id]['name'], $users[$id]['ally'], 0, 0, 0, 3, intval($row['position']), intval($row['score']), $timestamp, $users[$id]['status'] );
                 AddDBRow ( $pstat, "pstat");
             }
